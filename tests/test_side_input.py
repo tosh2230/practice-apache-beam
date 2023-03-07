@@ -14,15 +14,27 @@ class TestLeftJoin:
         standard_options.runner = "DirectRunner"
         with TestPipeline(options=options) as p:
             main_input = p | "Create main input" >> Create(
-                [{"id": "a", "num1": 1}, {"id": "b", "num1": 3}, {"id": "c", "num1": 5}]
+                [
+                    {"id": "a", "num1": 1},
+                    {"id": "a", "num1": 2},
+                    {"id": "b", "num1": 3},
+                    {"id": "b", "num1": 4},
+                    {"id": "c", "num1": 5},
+                ]
             )
             side_input = p | "Create side input" >> Create(
-                [{"id": "a", "num2": 2}, {"id": "b", "num2": 4}, {"id": "d", "num2": 6}]
+                [
+                    {"id": "a", "num2": 2, "str1": "aaa"},
+                    {"id": "b", "num2": 4, "str1": "bbb"},
+                    {"id": "d", "num2": 6, "str1": "ddd"},
+                ]
             )
 
             expected = [
-                {"id": "a", "num1": 1, "num2": 2},
-                {"id": "b", "num1": 3, "num2": 4},
+                {"id": "a", "num1": 1, "num2": 2, "str1": "aaa"},
+                {"id": "a", "num1": 2, "num2": 2, "str1": "aaa"},
+                {"id": "b", "num1": 3, "num2": 4, "str1": "bbb"},
+                {"id": "b", "num1": 4, "num2": 4, "str1": "bbb"},
                 {"id": "c", "num1": 5},
             ]
             actual = main_input | "ApplyLeftJoin" >> LeftJoin(
