@@ -13,7 +13,7 @@ apache-beam = {version = ">=2.45.0", extras = ["gcp"]}
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.2.0"
-black = "^22.12.0"
+black = "^24.3.0"
 pytest-mock = "^3.10.0"
 flake8 = "^6.0.0"
 isort = "^5.11.4"
